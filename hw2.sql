@@ -21,4 +21,39 @@ WHERE ratings.rating = 5
 LIMIT 10;
 
 -- четвертый запрос 3.1 COUNT() Посчитать число фильмов без оценок
+SELECT COUNT(1) - COUNT(rating) as movies_without_rating FROM ratings;
+
+-- пятый запрос 3.2 GROUP BY, HAVING вывести top-10 пользователей, у который средний рейтинг выше 3.5
+SELECT
+    userId,
+    AVG(rating) as avg_rating
+FROM public.ratings
+GROUP BY userId
+HAVING AVG(rating) > 3.5
+ORDER BY avg_rating DESC;
+LIMIT 10;
+
+-- шестой запрос 4.1 Подзапросы: достать любые 10 imbdId из links у которых средний рейтинг больше 3.5
+SELECT
+      lid.imdbid
+FROM links as lid 
+INNER JOIN (
+      SELECT
+            movieid, AVG(rating)
+      FROM ratings
+      GROUP BY movieid
+      HAVING AVG(rating) > 3.5) as rid
+ON (lid.movieid = rid.movieid)
+LIMIT 10;
+
+--седьмой запрос 4.2 Common Table Expressions: посчитать средний рейтинг по пользователям, у которых более 10 оценок. 
+--Нужно подсчитать средний рейтинг по все пользователям, которые попали под условие - то есть в ответе должно быть одно число.
+WITH tmp_table
+AS (
+      SELECT userid, COUNT(rating)   
+      FROM ratings
+      GROUP BY userid
+      HAVING COUNT(rating) > 10
+)            
+SELECT AVG(rating) FROM public.ratings WHERE userid IN (SELECT userid FROM tmp_table);
 
