@@ -30,7 +30,7 @@ SELECT
 FROM public.ratings
 GROUP BY userId
 HAVING AVG(rating) > 3.5
-ORDER BY avg_rating DESC;
+ORDER BY avg_rating DESC
 LIMIT 10;
 
 -- шестой запрос 4.1 Подзапросы: достать любые 10 imbdId из links у которых средний рейтинг больше 3.5
