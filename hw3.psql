@@ -1,0 +1,26 @@
+SELECT ('ФИО: Александр Дубнов');
+-- первый запрос. Основные функции
+SELECT
+    userid, movieid,
+    (rating - MIN(rating) OVER (PARTITION BY userId)) / ((MAX(rating) OVER (PARTITION BY userId)) - (MIN(rating) OVER (PARTITION BY userId))) as normed_rating,
+    AVG(rating) OVER (PARTITION BY userId) as avg_rating
+FROM
+    ratings
+LIMIT 30;
+
+
+-- Не понимаю как правильно сделать Transform.
+
+-- Могу отдельно выбрать все movieid, которыйм больше 50 раз ставили оценки
+ SELECT movieid, COUNT(rating)
+      FROM ratings
+      GROUP BY movieid
+      HAVING COUNT(rating) > 50;
+
+-- Могу сделать запрос по подсчету среднего рейтинга для каждого movieid
+
+SELECT movieid, AVG(rating) OVER (PARTITION BY movieid) as tmp from ratings;
+
+-- А дальше не получается
+
+-- Как сделать сам Load понятно, но нужно разобраться с построением выборки
