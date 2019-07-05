@@ -11,6 +11,8 @@
       <mapping ext="prc" type="DBN-PSQL" />
       <mapping ext="trg" type="DBN-PSQL" />
       <mapping ext="vw" type="DBN-SQL" />
+      <mapping pattern="jupiter" type="IPNB" />
+      <mapping ext=" knn digits_full" type="IPNB" />
     </extensionMap>
   </component>
 </application>
